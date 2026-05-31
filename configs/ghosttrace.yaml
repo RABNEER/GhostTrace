@@ -1,0 +1,34 @@
+mode: asm          # asm | ebpf | hybrid | windows
+ring_buffer_size: 65536
+
+scan:
+  enabled: true
+  interval_ms: 2000
+  worker_count: 4
+  patterns:
+    - meterpreter
+    - cobalt_strike
+    - shellcode_exec
+    - bin_sh
+
+anomaly:
+  orphan_detection: true
+  hollow_process: true
+  syscall_spike_multiplier: 5.0
+  dkom_check_interval_ms: 500
+  score_thresholds:
+    warn: 30
+    critical: 70
+
+alert:
+  dedup_window_seconds: 5
+  webhook:
+    enabled: false
+    url: ""
+    hmac_secret: ""
+    timeout_seconds: 5
+
+log:
+  level: info        # debug | info | warn | error
+  file: /var/log/ghosttrace/ghosttrace.log
+  format: json
